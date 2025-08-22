@@ -19,17 +19,17 @@ const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
 
   const userId = user?.result.googleId || user?.result?._id;
-  const hasLikedPost = post.likes.find((like) => like === userId);
+  const hasLikedPost = post?.likes?.find((like) => like === userId);
 
   const handleLike = async () => {
-    dispatch(likePost(post._id));
+  dispatch(likePost(post._id));
 
-    if (hasLikedPost) {
-      setLikes(post.likes.filter((id) => id !== userId));
-    } else {
-      setLikes([...post.likes, userId]);
-    }
-  };
+  if (hasLikedPost) {
+    setLikes(post?.likes?.filter((id) => id !== userId) || []);
+  } else {
+    setLikes([...(post?.likes || []), userId]);
+  }
+};
 
   const Likes = () => {
     if (likes.length > 0) {
