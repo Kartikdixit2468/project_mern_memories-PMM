@@ -97,6 +97,7 @@ const SignUp = () => {
             </Grid>
           </Grid>
         </form>
+              <ToastContainer position="top-right" autoClose={3000} />
       </Paper>
     </Container>
   );
