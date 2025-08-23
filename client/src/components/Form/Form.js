@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
@@ -26,15 +29,25 @@ const Form = ({ currentId, setCurrentId }) => {
     if (post) setPostData(post);
   }, [post]);
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (currentId === 0) {
-      dispatch(createPost({ ...postData, name: user?.result?.name }, history));
-      clear();
+    if (postData.title && postData.message && postData.tags.length > 0) {
+
+      if (currentId === 0) {
+        dispatch(
+          createPost({ ...postData, name: user?.result?.name }, history)
+        );
+        clear();
+      } else {
+        dispatch(
+          updatePost(currentId, { ...postData, name: user?.result?.name })
+        );
+        clear();
+      }
     } else {
-      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
-      clear();
+      toast.error("Title, message, and tags are mandatory!");
+
     }
   };
 
