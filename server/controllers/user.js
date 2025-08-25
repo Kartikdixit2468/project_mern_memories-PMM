@@ -3,8 +3,11 @@ import jwt from "jsonwebtoken";
 
 import UserModal from "../models/user.js";
 
-const secret = 'test';
+const secret = process.env.JWT_SECRET;
 
+if (!secret) {
+  throw new Error("JWT_SECRET environment variable is not set.");
+}
 export const signin = async (req, res) => {
   const { email, password } = req.body;
 
